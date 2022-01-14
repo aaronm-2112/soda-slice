@@ -1,0 +1,151 @@
+<!--Slice contains all dependencies used in SODA from CSS classes; JS/Jquery libraries; UI libraries; to analytics-->
+<!--Will communicate with main.js to use Interprocess Communication in ways used in the app-->
+
+
+
+<h2 id="slice-jquery-acordion">First Section JQuery and UI libraries</h2>
+
+<div class="ui styled accordion" id="slice-accordion">
+    <div class="active title">
+      <i class="dropdown icon"></i>
+      What is a dog?
+    </div>
+    <div class="active content">
+      <p>A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found as a welcome guest in many households across the world.</p>
+    </div>
+    <div class="title">
+      <i class="dropdown icon"></i>
+      What kinds of dogs are there?
+    </div>
+    <div class="content">
+      <p>There are many breeds of dogs. Each breed varies in size and temperament. Owners often select a breed of dog that they find to be compatible with their own lifestyle and desires from a companion.</p>
+    </div>
+    <div class="title">
+      <i class="dropdown icon"></i>
+      How do you acquire a dog?
+    </div>
+    <div class="content">
+      <p>Three common ways for a prospective owner to acquire a dog is from pet shops, private owners, or shelters.</p>
+      <p>A pet shop may be the most convenient way to buy a dog. Buying a dog from a private owner allows you to assess the pedigree and upbringing of your dog before choosing to take it home. Lastly, finding your dog from a shelter, helps give a good home to a dog who may not find one so readily.</p>
+    </div>
+
+</div>
+
+<h3>Tagify UI library</h3>
+<input id="slice-tagify"></input>
+<button id="load-tagify-btn">Load Tagify ELements</button>
+
+<h3>Sweet Alert UI Section</h3>
+<button id="sweet-alert-btn">Sweet Alert Activate</button>
+
+
+<h3>Semantic UI grid section</h3>
+<div class="ui four column doubling stackable grid container">
+    <div class="column">
+      <p>Row One</p>
+      <p>Row Two</p>
+    </div>
+    <div class="column">
+      <p>Row One</p>
+      <p>Row Two</p>
+    </div>
+    <div class="column">
+      <p>One</p>
+      <p>Two</p>
+    </div>
+    <div class="column">
+      <p>One</p>
+      <p>Two</p>
+    </div>
+</div>
+
+<h3>Semantic UI Form Section</h3>
+<form class="ui form">
+    <div class="field">
+      <label>First Name</label>
+      <input type="text" name="first-name" placeholder="First Name">
+    </div>
+    <div class="field">
+      <label>Last Name</label>
+      <input type="text" name="last-name" placeholder="Last Name">
+    </div>
+    <div class="field">
+      <div class="ui checkbox">
+        <input type="checkbox" tabindex="0" class="hidden">
+        <label>I agree to the Terms and Conditions</label>
+      </div>
+    </div>
+    <button class="ui button" type="submit">Submit</button>
+</form>
+
+<h3>Semantic UI Table</h3>
+<table class="ui celled table">
+    <thead>
+      <tr><th>Name</th>
+      <th>Age</th>
+      <th>Job</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td data-label="Name">James</td>
+        <td data-label="Age">24</td>
+        <td data-label="Job">Engineer</td>
+      </tr>
+      <tr>
+        <td data-label="Name">Jill</td>
+        <td data-label="Age">26</td>
+        <td data-label="Job">Engineer</td>
+      </tr>
+      <tr>
+        <td data-label="Name">Elyse</td>
+        <td data-label="Age">24</td>
+        <td data-label="Job">Designer</td>
+      </tr>
+    </tbody>
+</table>
+
+<h3>Semantic UI dropdown</h3>
+<div class="ui selection dropdown">
+    <input type="hidden" name="gender">
+    <i class="dropdown icon"></i>
+    <div class="default text">Gender</div>
+    <div class="menu">
+      <div class="item" data-value="1">Male</div>
+      <div class="item" data-value="0">Female</div>
+    </div>
+</div>
+
+
+<h3>Semantic UI Buttons</h3>
+<button class="ui button">
+    Follow
+</button>
+
+
+<h3>Semantic UI Icons section</h3>
+<i class="disabled users icon"></i>
+<i class="spinner loading icon"></i>
+<i class="notched circle loading icon"></i>
+<i class="asterisk loading icon"></i>
+
+
+<h3>Semantic UI Loader Section</h3>
+<div class="ui segment">
+    <p></p>
+    <div class="ui active dimmer">
+      <div class="ui loader"></div>
+    </div>
+</div>
+
+<div class="ui segment">
+    <div class="ui active inverted dimmer">
+      <div class="ui text loader">Loading</div>
+    </div>
+    <p></p>
+</div>
+
+<h2>IPC Renderer Usage</h2>
+
+<h3>Open a window using a call to IPCRenderer main</h3>
+<button id="ipc-btn-1">Open Window</button>
+
