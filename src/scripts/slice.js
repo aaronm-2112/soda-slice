@@ -5,6 +5,10 @@
    
 */ 
 
+// wait until the document is ready
+$(document).ready(() => {
+
+
 // create sub header for accordion in the slice html 
 let h3Accordion = $("<h3>Jquery and libraries - Accordion</h3>")
 $('#slice-jquery-accordion').prepend(h3Accordion)
@@ -15,19 +19,20 @@ let dsAccordion = $("#slice-accordion").accordion();
 dsAccordion.accordion("open", 0);
 
 // initialize the tagify input in the Tagify section of the slice 
-let sliceTagifyInput = $('#slice-tagify')
-let sliceTagify = new Tagify(sliceTagifyInput)
+// let sliceTagifyInput = $('#slice-tagify')
+// console.log(sliceTagifyInput)
+// let sliceTagify = new Tagify(sliceTagifyInput)
 
-$('#load-tagify-btn').on('click', async (e) => {
-    sliceTagify.loading()
+// $('#load-tagify-btn').on('click', async (e) => {
+//     sliceTagify.loading()
 
-    // add timeout 
-    await sleep(2000)
+//     // add timeout 
+//     await sleep(2000)
 
-    sliceTagify.addTags([{value: "shape", color: "green"}, {value: "core", color: "grey"}])
+//     sliceTagify.addTags([{value: "shape", color: "green"}, {value: "core", color: "grey"}])
 
-    sliceTagify.loading()
-})
+//     sliceTagify.loading()
+// })
 
 // sleep function to show loading works 
 const sleep = (ms) => {
@@ -75,6 +80,7 @@ $("#ipc-btn-1").on("click", () => {
 })
 
 
+})
 
 
 

@@ -81,76 +81,76 @@ console.log("Current SODA version:", appVersion);
 //////////////////////////////////
 // Connect to Python back-end
 //////////////////////////////////
-let client = new zerorpc.Client({ timeout: 300000 });
-client.connect("tcp://127.0.0.1:4242");
-client.invoke("echo", "server ready", (error, res) => {
-  if (error || res !== "server ready") {
-    log.error(error);
-    console.error(error);
-    ipcRenderer.send(
-      "track-event",
-      "Error",
-      "Establishing Python Connection",
-      error
-    );
-    Swal.fire({
-      icon: "error",
-      html: `Something went wrong with loading all the backend systems for SODA. Please restart SODA and try again. If this issue occurs multiple times, please email <a href='mailto:bpatel@calmi2.org'>bpatel@calmi2.org</a>.`,
-      heightAuto: false,
-      backdrop: "rgba(0,0,0, 0.4)",
-      confirmButtonText: "Restart now",
-      allowOutsideClick: false,
-      allowEscapeKey: false,
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        app.relaunch();
-        app.exit();
-      }
-    });
-  } else {
-    console.log("Connected to Python back-end successfully");
-    log.info("Connected to Python back-end successfully");
-    ipcRenderer.send(
-      "track-event",
-      "Success",
-      "Establishing Python Connection"
-    );
+let client = {invoke: function() {console.log("Hi")}} // new zerorpc.Client({ timeout: 300000 });
+// client.connect("tcp://127.0.0.1:4242");
+// client.invoke("echo", "server ready", (error, res) => {
+//   if (error || res !== "server ready") {
+//     log.error(error);
+//     console.error(error);
+//     ipcRenderer.send(
+//       "track-event",
+//       "Error",
+//       "Establishing Python Connection",
+//       error
+//     );
+//     Swal.fire({
+//       icon: "error",
+//       html: `Something went wrong with loading all the backend systems for SODA. Please restart SODA and try again. If this issue occurs multiple times, please email <a href='mailto:bpatel@calmi2.org'>bpatel@calmi2.org</a>.`,
+//       heightAuto: false,
+//       backdrop: "rgba(0,0,0, 0.4)",
+//       confirmButtonText: "Restart now",
+//       allowOutsideClick: false,
+//       allowEscapeKey: false,
+//     }).then(async (result) => {
+//       if (result.isConfirmed) {
+//         app.relaunch();
+//         app.exit();
+//       }
+//     });
+//   } else {
+//     console.log("Connected to Python back-end successfully");
+//     log.info("Connected to Python back-end successfully");
+//     ipcRenderer.send(
+//       "track-event",
+//       "Success",
+//       "Establishing Python Connection"
+//     );
 
-    // verify backend api versions
-    client.invoke("api_version_check", (error, res) => {
-      if (error || res !== appVersion) {
-        log.error(error);
-        console.error(error);
-        ipcRenderer.send(
-          "track-event",
-          "Error",
-          "Verifying App Version",
-          error
-        );
+//     // verify backend api versions
+//     client.invoke("api_version_check", (error, res) => {
+//       if (error || res !== appVersion) {
+//         log.error(error);
+//         console.error(error);
+//         ipcRenderer.send(
+//           "track-event",
+//           "Error",
+//           "Verifying App Version",
+//           error
+//         );
 
-        Swal.fire({
-          icon: "error",
-          html: `The minimum app versions do not match. Please try restarting your computer and reinstalling the latest version of SODA. If this issue occurs multiple times, please email <a href='mailto:bpatel@calmi2.org'>bpatel@calmi2.org</a>.`,
-          heightAuto: false,
-          backdrop: "rgba(0,0,0, 0.4)",
-          confirmButtonText: "Close now",
-          allowOutsideClick: false,
-          allowEscapeKey: false,
-        }).then(async (result) => {
-          if (result.isConfirmed) {
-            app.exit();
-          }
-        });
-      } else {
-        ipcRenderer.send("track-event", "Success", "Verifying App Version");
+//         Swal.fire({
+//           icon: "error",
+//           html: `The minimum app versions do not match. Please try restarting your computer and reinstalling the latest version of SODA. If this issue occurs multiple times, please email <a href='mailto:bpatel@calmi2.org'>bpatel@calmi2.org</a>.`,
+//           heightAuto: false,
+//           backdrop: "rgba(0,0,0, 0.4)",
+//           confirmButtonText: "Close now",
+//           allowOutsideClick: false,
+//           allowEscapeKey: false,
+//         }).then(async (result) => {
+//           if (result.isConfirmed) {
+//             app.exit();
+//           }
+//         });
+//       } else {
+//         ipcRenderer.send("track-event", "Success", "Verifying App Version");
 
-        //Load Default/global Pennsieve account if available
-        updateBfAccountList();
-        checkNewAppVersion(); // Added so that version will be displayed for new users
-      }
-    });
-  }
-});
+//         //Load Default/global Pennsieve account if available
+//         // updateBfAccountList();
+//         // checkNewAppVersion(); // Added so that version will be displayed for new users
+//       }
+//     });
+//   }
+// });
 
 const notyf = new Notyf({
   position: { x: "right", y: "bottom" },
@@ -2236,44 +2236,44 @@ function leaveFieldsEmpty(field, element) {
   }
 }
 
-$(currentConTable).mousedown(function (e) {
-  var length = currentConTable.rows.length - 1;
-  var tr = $(e.target).closest("tr"),
-    sy = e.pageY,
-    drag;
-  if ($(e.target).is("tr")) tr = $(e.target);
-  var index = tr.index();
-  $(tr).addClass("grabbed");
-  function move(e) {
-    if (!drag && Math.abs(e.pageY - sy) < 10) return;
-    drag = true;
-    tr.siblings().each(function () {
-      var s = $(this),
-        i = s.index(),
-        y = s.offset().top;
-      if (e.pageY >= y && e.pageY < y + s.outerHeight()) {
-        if (i !== 0) {
-          if ($(e.target).closest("tr")[0].rowIndex !== length) {
-            if (i < tr.index()) {
-              s.insertAfter(tr);
-            } else {
-              s.insertBefore(tr);
-            }
-            return false;
-          }
-        }
-      }
-    });
-  }
-  function up(e) {
-    if (drag && index != tr.index() && tr.index() !== length) {
-      drag = false;
-    }
-    $(document).unbind("mousemove", move).unbind("mouseup", up);
-    $(tr).removeClass("grabbed");
-  }
-  $(document).mousemove(move).mouseup(up);
-});
+// $(currentConTable).mousedown(function (e) {
+//   var length = currentConTable.rows.length - 1;
+//   var tr = $(e.target).closest("tr"),
+//     sy = e.pageY,
+//     drag;
+//   if ($(e.target).is("tr")) tr = $(e.target);
+//   var index = tr.index();
+//   $(tr).addClass("grabbed");
+//   function move(e) {
+//     if (!drag && Math.abs(e.pageY - sy) < 10) return;
+//     drag = true;
+//     tr.siblings().each(function () {
+//       var s = $(this),
+//         i = s.index(),
+//         y = s.offset().top;
+//       if (e.pageY >= y && e.pageY < y + s.outerHeight()) {
+//         if (i !== 0) {
+//           if ($(e.target).closest("tr")[0].rowIndex !== length) {
+//             if (i < tr.index()) {
+//               s.insertAfter(tr);
+//             } else {
+//               s.insertBefore(tr);
+//             }
+//             return false;
+//           }
+//         }
+//       }
+//     });
+//   }
+//   function up(e) {
+//     if (drag && index != tr.index() && tr.index() !== length) {
+//       drag = false;
+//     }
+//     $(document).unbind("mousemove", move).unbind("mouseup", up);
+//     $(tr).removeClass("grabbed");
+//   }
+//   $(document).mousemove(move).mouseup(up);
+// });
 
 $("#table-subjects").mousedown(function (e) {
   var length = document.getElementById("table-subjects").rows.length;
@@ -2610,7 +2610,7 @@ function detectEmptyRequiredFields(funding) {
 
 var displaySize = 1000;
 
-//////////////////////////////////
+//////////////////////////////////f
 // Prepare Dataset
 //////////////////////////////////
 
@@ -3745,38 +3745,38 @@ function refreshBfUsersList() {
   }
 }
 
-function refreshBfTeamsList(teamList) {
-  removeOptions(teamList);
+// function refreshBfTeamsList(teamList) {
+//   removeOptions(teamList);
 
-  var accountSelected = defaultBfAccount;
-  var optionTeam = document.createElement("option");
+//   var accountSelected = defaultBfAccount;
+//   var optionTeam = document.createElement("option");
 
-  optionTeam.textContent = "Select team";
-  teamList.appendChild(optionTeam);
+//   optionTeam.textContent = "Select team";
+//   teamList.appendChild(optionTeam);
 
-  if (accountSelected !== "Select") {
-    client.invoke("api_bf_get_teams", accountSelected, (error, res) => {
-      if (error) {
-        log.error(error);
-        console.error(error);
-        confirm_click_account_function();
-      } else {
-        // The removeoptions() wasn't working in some instances (creating a double list) so second removal for everything but the first element.
-        $("#bf_list_teams").selectpicker("refresh");
-        $("#bf_list_teams").find("option:not(:first)").remove();
-        $("#button-add-permission-team").hide();
-        for (var myItem in res) {
-          var myTeam = res[myItem];
-          var optionTeam = document.createElement("option");
-          optionTeam.textContent = myTeam;
-          optionTeam.value = myTeam;
-          teamList.appendChild(optionTeam);
-        }
-        confirm_click_account_function();
-      }
-    });
-  }
-}
+//   if (accountSelected !== "Select") {
+//     client.invoke("api_bf_get_teams", accountSelected, (error, res) => {
+//       if (error) {
+//         log.error(error);
+//         console.error(error);
+//         confirm_click_account_function();
+//       } else {
+//         // The removeoptions() wasn't working in some instances (creating a double list) so second removal for everything but the first element.
+//         $("#bf_list_teams").selectpicker("refresh");
+//         $("#bf_list_teams").find("option:not(:first)").remove();
+//         $("#button-add-permission-team").hide();
+//         for (var myItem in res) {
+//           var myTeam = res[myItem];
+//           var optionTeam = document.createElement("option");
+//           optionTeam.textContent = myTeam;
+//           optionTeam.value = myTeam;
+//           teamList.appendChild(optionTeam);
+//         }
+//         confirm_click_account_function();
+//       }
+//     });
+//   }
+// }
 
 const selectOptionColor = (mylist) => {
   mylist.style.color = mylist.options[mylist.selectedIndex].style.color;
@@ -3825,52 +3825,52 @@ const populateDatasetDropdowns = (mylist) => {
 };
 ////////////////////////////////////END OF DATASET FILTERING FEATURE//////////////////////////////
 
-function loadDefaultAccount() {
-  client.invoke("api_bf_default_account_load", (error, res) => {
-    if (error) {
-      log.error(error);
-      console.error(error);
-      confirm_click_account_function();
-    } else {
-      if (res.length > 0) {
-        var myitemselect = res[0];
-        defaultBfAccount = myitemselect;
-        $("#current-bf-account").text(myitemselect);
-        $("#current-bf-account-generate").text(myitemselect);
-        $("#create_empty_dataset_BF_account_span").text(myitemselect);
-        $(".bf-account-span").text(myitemselect);
-        showHideDropdownButtons("account", "show");
-        refreshBfUsersList();
-        refreshBfTeamsList(bfListTeams);
-      }
-    }
-  });
-}
+// function loadDefaultAccount() {
+//   client.invoke("api_bf_default_account_load", (error, res) => {
+//     if (error) {
+//       log.error(error);
+//       console.error(error);
+//       confirm_click_account_function();
+//     } else {
+//       if (res.length > 0) {
+//         var myitemselect = res[0];
+//         defaultBfAccount = myitemselect;
+//         $("#current-bf-account").text(myitemselect);
+//         $("#current-bf-account-generate").text(myitemselect);
+//         $("#create_empty_dataset_BF_account_span").text(myitemselect);
+//         $(".bf-account-span").text(myitemselect);
+//         showHideDropdownButtons("account", "show");
+//         refreshBfUsersList();
+//         refreshBfTeamsList(bfListTeams);
+//       }
+//     }
+//   });
+// }
 
-function updateBfAccountList() {
-  client.invoke("api_bf_account_list", (error, res) => {
-    if (error) {
-      log.error(error);
-      console.error(error);
-      var emessage = userError(error);
-      confirm_click_account_function();
-    } else {
-      for (myitem in res) {
-        var myitemselect = res[myitem];
-        var option = document.createElement("option");
-        option.textContent = myitemselect;
-        option.value = myitemselect;
-        var option2 = option.cloneNode(true);
-      }
-      loadDefaultAccount();
-      if (res[0] === "Select" && res.length === 1) {
-        // todo: no existing accounts to load
-      }
-    }
-    refreshBfUsersList();
-    refreshBfTeamsList(bfListTeams);
-  });
-}
+// function updateBfAccountList() {
+//   client.invoke("api_bf_account_list", (error, res) => {
+//     if (error) {
+//       log.error(error);
+//       console.error(error);
+//       var emessage = userError(error);
+//       confirm_click_account_function();
+//     } else {
+//       for (myitem in res) {
+//         var myitemselect = res[myitem];
+//         var option = document.createElement("option");
+//         option.textContent = myitemselect;
+//         option.value = myitemselect;
+//         var option2 = option.cloneNode(true);
+//       }
+//       loadDefaultAccount();
+//       if (res[0] === "Select" && res.length === 1) {
+//         // todo: no existing accounts to load
+//       }
+//     }
+//     refreshBfUsersList();
+//     refreshBfTeamsList(bfListTeams);
+//   });
+// }
 
 /*
 function showCurrentDOI() {
@@ -7346,8 +7346,8 @@ function addBFAccountInsideSweetalert(myBootboxDialog) {
             $(".bf-account-details-span").html(res);
             $("#para-continue-bf-dataset-getting-started").text("");
             showHideDropdownButtons("account", "show");
-            confirm_click_account_function();
-            updateBfAccountList();
+            // confirm_click_account_function();
+            // updateBfAccountList();
           }
         });
         Swal.fire({
