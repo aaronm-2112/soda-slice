@@ -107,11 +107,10 @@
     "tui-date-picker": "^4.3.1",
     "universal-analytics": "^0.4.23",
     "uuid": "^8.3.1",
-    "v8-compile-cache": "^2.3.0",
-    "zerorpc": "github:megasanjay/zerorpc-node#master"
+    "v8-compile-cache": "^2.3.0"
   },
   "devDependencies": {
-    "electron": "6.1.9",
+    "electron": "16.0.7",
     "electron-builder": "22.10.5",
     "electron-packager": "^14.0.6",
     "electron-rebuild": "^1.11.0",
