@@ -81,80 +81,31 @@ console.log("Current SODA version:", appVersion);
 //////////////////////////////////
 // Connect to Python back-end
 //////////////////////////////////
-let client = {
-  invoke: function () {
-    console.log("Hi");
-  },
-}; // new zerorpc.Client({ timeout: 300000 });
-// client.connect("tcp://127.0.0.1:4242");
-// client.invoke("echo", "server ready", (error, res) => {
-//   if (error || res !== "server ready") {
-//     log.error(error);
-//     console.error(error);
-//     ipcRenderer.send(
-//       "track-event",
-//       "Error",
-//       "Establishing Python Connection",
-//       error
-//     );
-//     Swal.fire({
-//       icon: "error",
-//       html: `Something went wrong with loading all the backend systems for SODA. Please restart SODA and try again. If this issue occurs multiple times, please email <a href='mailto:bpatel@calmi2.org'>bpatel@calmi2.org</a>.`,
-//       heightAuto: false,
-//       backdrop: "rgba(0,0,0, 0.4)",
-//       confirmButtonText: "Restart now",
-//       allowOutsideClick: false,
-//       allowEscapeKey: false,
-//     }).then(async (result) => {
-//       if (result.isConfirmed) {
-//         app.relaunch();
-//         app.exit();
-//       }
-//     });
-//   } else {
-//     console.log("Connected to Python back-end successfully");
-//     log.info("Connected to Python back-end successfully");
-//     ipcRenderer.send(
-//       "track-event",
-//       "Success",
-//       "Establishing Python Connection"
-//     );
-
-//     // verify backend api versions
-//     client.invoke("api_version_check", (error, res) => {
-//       if (error || res !== appVersion) {
-//         log.error(error);
-//         console.error(error);
-//         ipcRenderer.send(
-//           "track-event",
-//           "Error",
-//           "Verifying App Version",
-//           error
-//         );
-
-//         Swal.fire({
-//           icon: "error",
-//           html: `The minimum app versions do not match. Please try restarting your computer and reinstalling the latest version of SODA. If this issue occurs multiple times, please email <a href='mailto:bpatel@calmi2.org'>bpatel@calmi2.org</a>.`,
-//           heightAuto: false,
-//           backdrop: "rgba(0,0,0, 0.4)",
-//           confirmButtonText: "Close now",
-//           allowOutsideClick: false,
-//           allowEscapeKey: false,
-//         }).then(async (result) => {
-//           if (result.isConfirmed) {
-//             app.exit();
-//           }
-//         });
-//       } else {
-//         ipcRenderer.send("track-event", "Success", "Verifying App Version");
-
-//         //Load Default/global Pennsieve account if available
-//         // updateBfAccountList();
-//         // checkNewAppVersion(); // Added so that version will be displayed for new users
-//       }
-//     });
-//   }
-// });
+let client = new zerorpc.Client({ timeout: 300000 });
+client.connect("tcp://127.0.0.1:4242");
+client.invoke("echo", "server ready", (error, res) => {
+  if (error || res !== "server ready") {
+    log.error(error);
+    console.error(error);
+    Swal.fire({
+      icon: "error",
+      html: `Something went wrong with loading all the backend systems for SODA. Please restart SODA and try again. If this issue occurs multiple times, please email <a href='mailto:bpatel@calmi2.org'>bpatel@calmi2.org</a>.`,
+      heightAuto: false,
+      backdrop: "rgba(0,0,0, 0.4)",
+      confirmButtonText: "Restart now",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        app.relaunch();
+        app.exit();
+      }
+    });
+  } else {
+    console.log("Connected to Python back-end successfully");
+    log.info("Connected to Python back-end successfully");
+  }
+});
 
 const notyf = new Notyf({
   position: { x: "right", y: "bottom" },
@@ -1105,7 +1056,7 @@ ipcRenderer.on(
               didOpen: () => {
                 Swal.showLoading();
               },
-            }).then((result) => {});
+            }).then((result) => { });
             generateSubjectsFileHelper(false);
           }
         });
@@ -1121,7 +1072,7 @@ ipcRenderer.on(
           didOpen: () => {
             Swal.showLoading();
           },
-        }).then((result) => {});
+        }).then((result) => { });
         generateSubjectsFileHelper(false);
       }
     }
@@ -1175,7 +1126,7 @@ async function generateSubjectsFileHelper(uploadBFBoolean) {
     didOpen: () => {
       Swal.showLoading();
     },
-  }).then((result) => {});
+  }).then((result) => { });
 
   client.invoke(
     "api_save_subjects_file",
@@ -1267,7 +1218,7 @@ ipcRenderer.on(
               didOpen: () => {
                 Swal.showLoading();
               },
-            }).then((result) => {});
+            }).then((result) => { });
             generateSamplesFileHelper(uploadBFBoolean);
           }
         });
@@ -1283,7 +1234,7 @@ ipcRenderer.on(
           didOpen: () => {
             Swal.showLoading();
           },
-        }).then((result) => {});
+        }).then((result) => { });
         generateSamplesFileHelper(uploadBFBoolean);
       }
     }
@@ -1337,7 +1288,7 @@ async function generateSamplesFileHelper(uploadBFBoolean) {
     didOpen: () => {
       Swal.showLoading();
     },
-  }).then((result) => {});
+  }).then((result) => { });
 
   // new client that has a longer timeout
   let clientLongTimeout = new zerorpc.Client({
@@ -1855,7 +1806,7 @@ async function loadTaxonomySpecies(commonName, destinationInput) {
     didOpen: () => {
       Swal.showLoading();
     },
-  }).then((result) => {});
+  }).then((result) => { });
   await client.invoke(
     "api_load_taxonomy_species",
     [commonName],
@@ -2572,9 +2523,9 @@ function detectEmptyRequiredFields(funding) {
   var emptyArray = [dsSatisfied, conSatisfied, protocolSatisfied];
   var emptyMessageArray = [
     "- Missing required fields under Dataset Info section: " +
-      dsEmptyField.join(", "),
+    dsEmptyField.join(", "),
     "- Missing required fields under Contributor Info section: " +
-      conEmptyField.join(", "),
+    conEmptyField.join(", "),
     "- Missing required item under Article(s) and Protocol(s) Info section: At least one protocol url",
   ];
   var allFieldsSatisfied = true;
@@ -4477,7 +4428,7 @@ function showDefaultBFAccount() {
               $(".bf-account-details-span").html("None");
 
               $("#div-bf-account-load-progress").css("display", "none");
-              showHideDropdownButtons("account", "hide");
+              // showHideDropdownButtons("account", "hide");
             } else {
               $("#para-account-detail-curate").html(res);
               $("#current-bf-account").text(defaultBfAccount);
@@ -4489,9 +4440,9 @@ function showDefaultBFAccount() {
               $(".bf-account-details-span").html(res);
 
               $("#div-bf-account-load-progress").css("display", "none");
-              showHideDropdownButtons("account", "show");
+              // showHideDropdownButtons("account", "show");
               // refreshDatasetList()
-              updateDatasetList();
+              // updateDatasetList();
             }
           }
         );
@@ -6234,9 +6185,9 @@ document
     for (var highLevelFol in sodaJSONObj["dataset-structure"]["folders"]) {
       if (
         "manifest.xlsx" in
-          sodaJSONObj["dataset-structure"]["folders"][highLevelFol]["files"] &&
+        sodaJSONObj["dataset-structure"]["folders"][highLevelFol]["files"] &&
         sodaJSONObj["dataset-structure"]["folders"][highLevelFol]["files"][
-          "manifest.xlsx"
+        "manifest.xlsx"
         ]["forTreeview"]
       ) {
         delete sodaJSONObj["dataset-structure"]["folders"][highLevelFol][

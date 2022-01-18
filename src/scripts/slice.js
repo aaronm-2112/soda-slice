@@ -5,7 +5,7 @@
    
 */
 
-const fs = require("fs/promises");
+// const fs = require("fs/promises");
 
 // wait until the document is ready
 $(document).ready(() => {
@@ -458,9 +458,20 @@ $(document).ready(() => {
   };
 
   // read a file on button press
-  $("#file-read-btn").on("click", (e) => {
-    let file = fs.readFile("/path/to/file");
-
-    console.log(file.text);
+  $("#file-read-btn").on("click", async (e) => {
+    let file = await fs.readFile("/home/aaron/Desktop/test.txt");
+    alert(file)
   });
+
+  // zerorpc call 
+  $("#get-rpc").on("click", () => {
+      client.invoke("slice", (err, res) => {
+          if(err) {
+              alert(err)
+              return
+          } 
+          alert(res)
+
+      })
+  })
 });
