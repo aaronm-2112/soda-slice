@@ -81,7 +81,11 @@ console.log("Current SODA version:", appVersion);
 //////////////////////////////////
 // Connect to Python back-end
 //////////////////////////////////
-let client = {invoke: function() {console.log("Hi")}} // new zerorpc.Client({ timeout: 300000 });
+let client = {
+  invoke: function () {
+    console.log("Hi");
+  },
+}; // new zerorpc.Client({ timeout: 300000 });
 // client.connect("tcp://127.0.0.1:4242");
 // client.invoke("echo", "server ready", (error, res) => {
 //   if (error || res !== "server ready") {
@@ -9014,3 +9018,5 @@ const getDatasetMetadataFiles = async (datasetIdOrName) => {
   // return the metdata files to the client
   return metadataFiles;
 };
+
+
