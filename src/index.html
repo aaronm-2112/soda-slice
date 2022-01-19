@@ -249,13 +249,13 @@
       <main id="content" class="content js-content"></main>
     </div>
 
-    <script src="assets/imports.js"></script>
-    <script src="./assets/ex-links.js"></script> // Opens url into external chrome tab instead of in the app
-    <script src="./assets/nav.js"></script> // Side navigation menu control
-    <script src="./assets/demo-btns.js"></script>
-    <script src="./assets/normalize-shortcuts.js"></script> // For normalizing shortcuts across OS --> -->
+    <!-- <script src="assets/imports.js"></script>
+    <script src="assets/ex-links.js"></script> // Opens url into external chrome tab instead of in the app
+    <script src="assets/nav.js"></script> // Side navigation menu control
+    <script src="assets/demo-btns.js"></script>
+    <script src="assets/normalize-shortcuts.js"></script> // For normalizing shortcuts across OS --> --> -->
  
-
+<!-- 
     <script>
       $(document).ready(() => {
         $("#sidebarCollapse").on("click", function () {
@@ -270,14 +270,32 @@
           $(this).addClass("is-selected");
         });
       });
-    </script> 
+    </script>  -->
 
-    <script src="scripts/others/popper.min.js"></script>
+    <script>
+      // window.api.send("sendFile", "/home/aaron/Desktop/test.txt")
+      // window.api.receive("receiveFile", (fileContents) => {
+      //   console.log(fileContents)
+      // })
+      ( async () => {
+        const {myIpcRenderer} = window 
+        try {
+          const fileContents = await myIpcRenderer.invoke('APP_READ_FILE', "/home/aaron/Desktop/test.txt")
+          console.log(fileContents)
+        } catch(e) {
+          console.error(e)
+        }
+      })()
+      
+
+    </script>
+
+    <!-- <script src="scripts/others/popper.min.js"></script>
     <script src="node_modules/fomantic-ui/dist/components/accordion.js"></script>
     <script src="node_modules/jstree/dist/jstree.min.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="node_modules/@tarekraafat/autocomplete.js/dist/autoComplete.js"></script>
     <script src="node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
-    <script src="./scripts/others/renderer.js" type="text/javascript"></script>
+    <script src="./scripts/others/renderer.js" type="text/javascript"></script> -->
   </body>
 </html>

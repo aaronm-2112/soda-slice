@@ -11,6 +11,7 @@ const { autoUpdater } = require("electron-updater");
 const { JSONStorage } = require("node-localstorage");
 const { trackEvent } = require("./scripts/others/analytics");
 const { fstat } = require("fs");
+const fs = require("fs")
 
 log.transports.console.level = false;
 log.transports.file.level = "debug";
@@ -168,8 +169,10 @@ function initialize() {
       show: false,
       icon: __dirname + "/assets/menu-icon/soda_icon.png",
       webPreferences: {
-        nodeIntegration: true,
-        enableRemoteModule: true,
+        nodeIntegration: false,
+        enableRemoteModule: false,
+        contexxtIsolation: true,
+        preload: path.join(__dirname, "scripts", "preload.js")
       },
     };
 
@@ -384,5 +387,30 @@ ipcMain.on("orcid", (event, url) => {
     }
   });
 });
+
+
+ipcMain.handle("APP_READ_FILE", (event, filePath) =>  {
+  console.log("Event is: ", filePath)
+  try{ 
+    return readFile(filePath)
+  } catch(e) {
+    console.error(e)
+  }
+})
+
+const readFile = (filePath) => {
+  return new Promise((resolve, reject) => {
+    fs.readFile(filePath, "utf-8", (err, text) => {
+      if(err) {
+        console.error(err)
+        reject(err)
+      } else {
+        // mainWindow.webContents.send("receiveFile", text)
+        resolve(text)
+      }
+    })
+  })
+}
+
 
 
