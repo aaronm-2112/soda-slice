@@ -335,7 +335,7 @@ const wait = async (delay) => {
   return new Promise((resolve) => setTimeout(resolve, delay));
 };
 
-ipcMain.handle("APP_ORCID", (event, url) => {
+ipcMain.on("APP_ORCID", (event, url) => {
   console.log("ORCID stuff happening")
   const windowOptions = {
     minWidth: 500,
@@ -346,8 +346,9 @@ ipcMain.handle("APP_ORCID", (event, url) => {
     show: true,
     icon: __dirname + "/assets/menu-icon/soda_icon.png",
     webPreferences: {
-      nodeIntegration: true,
-      enableRemoteModule: true,
+      nodeIntegration: false,
+      enableRemoteModule: false,
+      contextIsolation: true
     },
     // modal: true,
     parent: mainWindow,
@@ -359,10 +360,11 @@ ipcMain.handle("APP_ORCID", (event, url) => {
   // send to client so they can use this for the Pennsieve endpoint for integrating an ORCID
   let accessCode;
 
-  pennsieveModal.on("close", function () {
+  pennsieveModal.on("close", () => {
     // send event back to the renderer to re-run the prepublishing checks
     // this will detect if the user added their ORCID iD
-    event.reply("orcid-reply", accessCode);
+    console.log("Access code is received: ", accessCode)
+    mainWindow.webContents.send("APP_ORCID_REPLY", accessCode);
 
     pennsieveModal = null;
   });
