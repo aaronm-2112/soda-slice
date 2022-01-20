@@ -67,13 +67,13 @@
     />
 
     <link rel="import" href="sections/welcome/welcome.html" />
-    <link rel="import" href="sections/getting_started/getting_started.html" />
+    <!-- <link rel="import" href="sections/getting_started/getting_started.html" />
     <link rel="import" href="sections/manage_datasets/manage_datasets.html" />
     <link rel="import" href="sections/post_curation/post_curation.html" />
     <link rel="import" href="sections/prepare_metadata/prepare_metadata.html" />
     <link rel="import" href="sections/curate/curate.html" />
     <link rel="import" href="sections/main_tabs/main_tabs.html" />
-    <link rel="import" href="sections/help/help.html" />
+    <link rel="import" href="sections/help/help.html" /> -->
     <link rel="import" href="sections/slice.html" />
 
     <style>
@@ -246,17 +246,19 @@
       class="dash-app"
       style="background: #fff; border-top: 1px solid #c3c3c3"
     >
-      <main id="content" class="content js-content"></main>
+      <main id="content" class="content js-content">
+        <h1>Main content here</h1>
+      </main>
     </div>
 
-    <!-- <script src="assets/imports.js"></script>
-    <script src="assets/ex-links.js"></script> // Opens url into external chrome tab instead of in the app
+   <script src="assets/imports.js"></script>
+    <!-- <script src="assets/ex-links.js"></script> // Opens url into external chrome tab instead of in the app
     <script src="assets/nav.js"></script> // Side navigation menu control
     <script src="assets/demo-btns.js"></script>
-    <script src="assets/normalize-shortcuts.js"></script> // For normalizing shortcuts across OS --> --> -->
+    <script src="assets/normalize-shortcuts.js"></script> // For normalizing shortcuts across OS --> 
  
-<!-- 
-    <script>
+
+    <!-- <script>
       $(document).ready(() => {
         $("#sidebarCollapse").on("click", function () {
           $("#main-nav").toggleClass("active");
@@ -273,10 +275,6 @@
     </script>  -->
 
     <script>
-      // window.api.send("sendFile", "/home/aaron/Desktop/test.txt")
-      // window.api.receive("receiveFile", (fileContents) => {
-      //   console.log(fileContents)
-      // })
       ( async () => {
         const {myIpcRenderer} = window 
         try {
@@ -286,11 +284,17 @@
           console.error(e)
         }
       })()
-      
+    </script>
 
+    <script>
+      let h1 = document.createElement("h1")
+      h1.textContent = "Hello this is an h1"
+
+      document.querySelector("#content").appendChild(h1)
     </script>
 
     <!-- <script src="scripts/others/popper.min.js"></script>
+    
     <script src="node_modules/fomantic-ui/dist/components/accordion.js"></script>
     <script src="node_modules/jstree/dist/jstree.min.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

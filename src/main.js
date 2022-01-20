@@ -171,7 +171,7 @@ function initialize() {
       webPreferences: {
         nodeIntegration: false,
         enableRemoteModule: false,
-        contexxtIsolation: true,
+        contextIsolation: true,
         preload: path.join(__dirname, "scripts", "preload.js")
       },
     };
