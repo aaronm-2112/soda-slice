@@ -16,11 +16,10 @@ function docReady(fn) {
   var template = document.createElement('template');
   html = html.trim(); // Never return a text node of whitespace as the result
   template.innerHTML = html;
-  return template.content.firstChild
+  return template.content
 }
 
-docReady(() => {
-
+document.addEventListener("DOMContentLoaded", function(e){
   const links = document.querySelectorAll('link[rel="import"]')
 
   // Import and add each page to the DOM
@@ -30,13 +29,11 @@ docReady(() => {
         'Content-Type': 'text/html'
       }
     })
-
     let content = await doc.text()
     let template = htmlToElement(content)
-    console.log(template)
     let clone = document.importNode(template, true);
-    console.log(clone)
     document.querySelector("#content").appendChild(clone);
+    console.log("Done?")
   });
-})
+});
 

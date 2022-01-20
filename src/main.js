@@ -335,7 +335,8 @@ const wait = async (delay) => {
   return new Promise((resolve) => setTimeout(resolve, delay));
 };
 
-ipcMain.on("orcid", (event, url) => {
+ipcMain.handle("APP_ORCID", (event, url) => {
+  console.log("ORCID stuff happening")
   const windowOptions = {
     minWidth: 500,
     minHeight: 300,

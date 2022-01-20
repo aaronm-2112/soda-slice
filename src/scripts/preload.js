@@ -19,10 +19,12 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 function callIpcRenderer(method, channel, ...args) {
+    console.log("Call received")
     if (typeof channel !== 'string' || !channel.startsWith('APP_')) {
         throw 'Error: IPC channel name not allowed';
     }
     if (['invoke', 'send'].includes(method)) {
+        console.log("Received by right caller")
         return ipcRenderer[method](channel, ...args);
     }
 
