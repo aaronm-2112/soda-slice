@@ -1,7 +1,5 @@
 const { ipcMain, dialog, BrowserWindow } = require("electron");
 
-console.log("In open file");
-
 ipcMain.on("open-file-dialog-dataset", (event) => {
   dialog.showOpenDialog(
     BrowserWindow.getFocusedWindow(),
@@ -404,23 +402,7 @@ ipcMain.on("open-file-dialog-submit-dataset", (event) => {
   );
 });
 
-// Pennsieve metadata
-ipcMain.on("open-file-dialog-import-banner-image", (event) => {
-  dialog.showOpenDialog(
-    BrowserWindow.getFocusedWindow(),
-    {
-      properties: ["openFile"],
-      filters: [
-        { name: "Image", extensions: ["jpg", "png", "jpeg", "tiff", "tif"] },
-      ],
-    },
-    (files) => {
-      if (files) {
-        event.sender.send("selected-banner-image", files);
-      }
-    }
-  );
-});
+
 
 /// Validate import local dataset
 ipcMain.on("open-file-dialog-validate-local-ds", (event) => {

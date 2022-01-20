@@ -2981,43 +2981,7 @@ const Cropper = require("cropperjs");
 const { default: Swal } = require("sweetalert2");
 const { waitForDebugger } = require("inspector");
 const { resolve } = require("path");
-var cropOptions = {
-  aspectRatio: 1,
-  movable: false,
-  // Enable to rotate the image
-  rotatable: false,
-  // Enable to scale the image
-  scalable: false,
-  // Enable to zoom the image
-  zoomable: false,
-  // Enable to zoom the image by dragging touch
-  zoomOnTouch: false,
-  // Enable to zoom the image by wheeling mouse
-  zoomOnWheel: false,
-  // preview: '.preview',
-  viewMode: 1,
-  responsive: true,
-  crop: function (event) {
-    var data = event.detail;
-    let image_height = Math.round(data.height);
 
-    formBannerHeight.value = image_height;
-
-    if (image_height < 512 || image_height > 2048) {
-      $("#save-banner-image").prop("disabled", true);
-      $("#form-banner-height").css("color", "red");
-      $("#form-banner-height").css("border", "1px solid red");
-      $(".crop-image-text").css("color", "red");
-    } else {
-      $("#save-banner-image").prop("disabled", false);
-      $("#form-banner-height").css("color", "black");
-      $("#form-banner-height").css("border", "1px solid black");
-      $(".crop-image-text").css("color", "black");
-    }
-
-    // formBannerWidth.value = Math.round(data.width)
-  },
-};
 
 var imageExtension;
 var myCropper = new Cropper(bfViewImportedImage, cropOptions);

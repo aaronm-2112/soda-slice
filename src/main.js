@@ -11,7 +11,7 @@ const { autoUpdater } = require("electron-updater");
 const { JSONStorage } = require("node-localstorage");
 const { trackEvent } = require("./scripts/others/analytics");
 const { fstat } = require("fs");
-const fs = require("fs")
+const fs = require("fs");
 
 log.transports.console.level = false;
 log.transports.file.level = "debug";
@@ -172,7 +172,7 @@ function initialize() {
         nodeIntegration: false,
         enableRemoteModule: false,
         contextIsolation: true,
-        preload: path.join(__dirname, "scripts", "preload.js")
+        preload: path.join(__dirname, "scripts", "preload.js"),
       },
     };
 
@@ -336,7 +336,7 @@ const wait = async (delay) => {
 };
 
 ipcMain.on("APP_ORCID", (event, url) => {
-  console.log("ORCID stuff happening")
+  console.log("ORCID stuff happening");
   const windowOptions = {
     minWidth: 500,
     minHeight: 300,
@@ -348,7 +348,7 @@ ipcMain.on("APP_ORCID", (event, url) => {
     webPreferences: {
       nodeIntegration: false,
       enableRemoteModule: false,
-      contextIsolation: true
+      contextIsolation: true,
     },
     // modal: true,
     parent: mainWindow,
@@ -363,7 +363,7 @@ ipcMain.on("APP_ORCID", (event, url) => {
   pennsieveModal.on("close", () => {
     // send event back to the renderer to re-run the prepublishing checks
     // this will detect if the user added their ORCID iD
-    console.log("Access code is received: ", accessCode)
+    console.log("Access code is received: ", accessCode);
     mainWindow.webContents.send("APP_ORCID_REPLY", accessCode);
 
     pennsieveModal = null;
@@ -391,29 +391,40 @@ ipcMain.on("APP_ORCID", (event, url) => {
   });
 });
 
-
-ipcMain.handle("APP_READ_FILE", (event, filePath) =>  {
-  console.log("Event is: ", filePath)
-  try{ 
-    return readFile(filePath)
-  } catch(e) {
-    console.error(e)
+ipcMain.handle("APP_READ_FILE", (event, filePath) => {
+  console.log("Event is: ", filePath);
+  try {
+    return readFile(filePath);
+  } catch (e) {
+    console.error(e);
   }
-})
+});
 
 const readFile = (filePath) => {
   return new Promise((resolve, reject) => {
     fs.readFile(filePath, "utf-8", (err, text) => {
-      if(err) {
-        console.error(err)
-        reject(err)
+      if (err) {
+        console.error(err);
+        reject(err);
       } else {
         // mainWindow.webContents.send("receiveFile", text)
-        resolve(text)
+        resolve(text);
       }
-    })
-  })
-}
+    });
+  });
+};
 
+// Pennsieve metadata
+ipcMain.on("APP_OPEN-FILE-DIALOG-IMPORT-BANNER-IMAGE", async (event) => {
+  let files = await dialog.showOpenDialog(mainWindow, {
+    properties: ["openFile"],
+    filters: [
+      { name: "Image", extensions: ["jpg", "png", "jpeg", "tiff", "tif"] },
+    ],
+  });
 
-
+  if (files) {
+    console.log("Sending files");
+    mainWindow.webContents.send("APP_SELECTED-BANNER-IMAGE", files);
+  }
+});

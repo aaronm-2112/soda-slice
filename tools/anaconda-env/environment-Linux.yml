@@ -1,11 +1,11 @@
-name: env-electron-python
+name: env-electron-python-slice
 channels:
 - defaults
 - conda-forge
 dependencies:
 - python = 3.6
 - PyInstaller = 3.5
-- nodejs = 10.13.0
+- nodejs = 16.13.0
 - libgcc = 7.2.0
 - git = 2.20.1
 - pip
@@ -17,7 +17,7 @@ dependencies:
   - chardet == 4.0.0
   - pandas == 0.25.2
   - openpyxl == 3.0.0
-  - zerorpc == 0.6.3
+  # - zerorpc == 0.6.3
   - pennsieve == 6.1.2
   - configparser == 4.0.2
   - python-docx == 0.8.10
