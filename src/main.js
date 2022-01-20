@@ -414,17 +414,4 @@ const readFile = (filePath) => {
   });
 };
 
-// Pennsieve metadata
-ipcMain.on("APP_OPEN-FILE-DIALOG-IMPORT-BANNER-IMAGE", async (event) => {
-  let files = await dialog.showOpenDialog(mainWindow, {
-    properties: ["openFile"],
-    filters: [
-      { name: "Image", extensions: ["jpg", "png", "jpeg", "tiff", "tif"] },
-    ],
-  });
 
-  if (files) {
-    console.log("Sending files");
-    mainWindow.webContents.send("APP_SELECTED-BANNER-IMAGE", files);
-  }
-});
