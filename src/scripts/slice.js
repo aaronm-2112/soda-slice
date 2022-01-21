@@ -174,43 +174,50 @@ $(document).ready(() => {
       myIpcRenderer.send("APP_OPEN-FILE-DIALOG-IMPORT-BANNER-IMAGE");
     });
 
-    const uploadBannerImage = () => {
-      $("#para-dataset-banner-image-status").html("Please wait...");
-      //Save cropped image locally and check size
-      let imageFolder = path.join(homeDirectory, "SODA", "banner-image");
-      let imageType = "";
-
-      if (!fs.existsSync(imageFolder)) {
-        fs.mkdirSync(imageFolder, { recursive: true });
-      }
-
-      if (imageExtension == "png") {
-        imageType = "image/png";
-      } else {
-        imageType = "image/jpeg";
-      }
-
-      let imagePath = path.join(
-        imageFolder,
-        "banner-image-SODA." + imageExtension
-      );
-      let croppedImageDataURI = myCropper
-        .getCroppedCanvas()
-        .toDataURL(imageType);
-
-      imageDataURI.outputFile(croppedImageDataURI, imagePath).then(() => {
-        let image_file_size = fs.statSync(imagePath)["size"];
-
-        if (image_file_size < 5 * 1024 * 1024) {
-          alert("Successfully uploaded banner image");
-        } else {
-          $("#para-dataset-banner-image-status").html(
-            "<span style='color: red;'> " +
-              "Final image size must be less than 5 MB" +
-              "</span>"
-          );
-        }
+    const uploadBannerImage = async () => {
+      let res = await fetch("http://127.0.0.1:5000", {
+        method: "GET",
+        headers: { "Content-type": "application/json" },
       });
+
+      let parsed = await res.json();
+      console.log(parsed);
+
+      // $("#para-dataset-banner-image-status").html("Please wait...");
+      // //Save cropped image locally and check size
+      // let imageFolder = path.join(homeDirectory, "SODA", "banner-image");
+      // let imageType = "";
+      // if (!fs.existsSync(imageFolder)) {
+      //   fs.mkdirSync(imageFolder, { recursive: true });
+      // }
+      // if (imageExtension == "png") {
+      //   imageType = "image/png";
+      // } else {
+      //   imageType = "image/jpeg";
+      // }
+      // let imagePath = path.join(
+      //   imageFolder,
+      //   "banner-image-SODA." + imageExtension
+      // );
+      // let croppedImageDataURI = myCropper
+      //   .getCroppedCanvas()
+      //   .toDataURL(imageType);
+      // imageDataURI.outputFile(croppedImageDataURI, imagePath).then(() => {
+      //   let image_file_size = fs.statSync(imagePath)["size"];
+      //   if (image_file_size < 5 * 1024 * 1024) {
+      //     // drop the Flask call here
+      //     // let res = await fetch("http://127.0.0.1:5000", { method: "GET" });
+      //     // let parsedResponse = await res.json();
+      //     // alert(parsedResponse);
+      //     alert("Successfully uploaded banner image");
+      //   } else {
+      //     $("#para-dataset-banner-image-status").html(
+      //       "<span style='color: red;'> " +
+      //         "Final image size must be less than 5 MB" +
+      //         "</span>"
+      //     );
+      //   }
+      // });
     };
 
     $("#save-banner-image").click((event) => {
@@ -309,9 +316,9 @@ $(document).ready(() => {
           crop: function (event) {
             var data = event.detail;
             let image_height = Math.round(data.height);
-        
+
             formBannerHeight.value = image_height;
-        
+
             if (image_height < 512 || image_height > 2048) {
               $("#save-banner-image").prop("disabled", true);
               $("#form-banner-height").css("color", "red");
@@ -323,7 +330,7 @@ $(document).ready(() => {
               $("#form-banner-height").css("border", "1px solid black");
               $(".crop-image-text").css("color", "black");
             }
-        
+
             // formBannerWidth.value = Math.round(data.width)
           },
         };

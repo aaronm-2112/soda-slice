@@ -172,6 +172,7 @@ function initialize() {
         nodeIntegration: false,
         enableRemoteModule: false,
         contextIsolation: true,
+        sandbox: true,
         preload: path.join(__dirname, "scripts", "preload.js"),
       },
     };
@@ -413,5 +414,3 @@ const readFile = (filePath) => {
     });
   });
 };
-
-
