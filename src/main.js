@@ -169,11 +169,11 @@ function initialize() {
       show: false,
       icon: __dirname + "/assets/menu-icon/soda_icon.png",
       webPreferences: {
-        nodeIntegration: false,
+        nodeIntegration: true,
         enableRemoteModule: false,
-        contextIsolation: true,
-        sandbox: true,
-        preload: path.join(__dirname, "scripts", "preload.js"),
+        contextIsolation: false,
+        // sandbox: true,
+        // preload: path.join(__dirname, "scripts", "preload.js"),
       },
     };
 

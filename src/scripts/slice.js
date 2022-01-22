@@ -4,6 +4,9 @@
    Goal is to include a bit of what can fail, fix ech issue and then create a build. If that build works that is a good estimate of the time it will take.
    
 */
+// import Tagify from '@yaireo/tagify'
+const Tagify = require("@yaireo/tagify")
+const $ = require("jquery")
 
 $(document).ready(() => {
   setTimeout(() => {
@@ -59,16 +62,16 @@ $(document).ready(() => {
       alert(`Result is: ${res}`);
     });
 
-    // h2 mymymymyIpcRenderer section integrate ORCID iD
+    // h2 mymymyipcRenderer section integrate ORCID iD
     $("#ipc-btn-1").on("click", async () => {
       console.log("Attached event activated");
       // send url to create a window and reach out to ORICD
-      myIpcRenderer.send(
+      ipcRenderer.send(
         "APP_ORCID",
         "https://orcid.org/oauth/authorize?client_id=APP-J86O4ZY7LKQGWJ2X&response_type=code&scope=/authenticate&redirect_uri=https://app.pennsieve.io/orcid-redirect"
       );
 
-      myIpcRenderer.on("APP_ORCID_REPLY", (e, data) => {
+      ipcRenderer.on("APP_ORCID_REPLY", (e, data) => {
         alert(e);
       });
     });
@@ -171,7 +174,7 @@ $(document).ready(() => {
     $("#button-import-banner-image").click(() => {
       $("#para-dataset-banner-image-status").html("");
       console.log("Import image clicked");
-      myIpcRenderer.send("APP_OPEN-FILE-DIALOG-IMPORT-BANNER-IMAGE");
+      ipcRenderer.send("APP_OPEN-FILE-DIALOG-IMPORT-BANNER-IMAGE");
     });
 
     const uploadBannerImage = async () => {
@@ -283,7 +286,7 @@ $(document).ready(() => {
       }
     });
 
-    myIpcRenderer.on("APP_SELECTED-BANNER-IMAGE", async (paths) => {
+    ipcRenderer.on("APP_SELECTED-BANNER-IMAGE", async (paths) => {
       const path = paths.filePaths;
 
       if (path.length > 0) {
@@ -346,7 +349,7 @@ $(document).ready(() => {
       }
     });
 
-    // myIpcRenderer.on("show-banner-image-below-1024", (event, index) => {
+    // ipcRenderer.on("show-banner-image-below-1024", (event, index) => {
     //   if (index === 0) {
     //     uploadBannerImage();
     //   }
